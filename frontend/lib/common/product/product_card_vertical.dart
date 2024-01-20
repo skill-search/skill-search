@@ -10,15 +10,16 @@ class ProductCardVertical extends StatelessWidget {
     super.key,
     required this.entry,
     required this.docID,
-    });
+  });
 
-    final Map<String, dynamic> entry;
-    final String docID;
+  final Map<String, dynamic> entry;
+  final String docID;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetail(entry: entry, docID: docID)),
+      onTap: () =>
+          Get.to(() => ProductDetail(entry: entry, docID: docID, chat: false)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -47,9 +48,9 @@ class ProductCardVertical extends StatelessWidget {
                     ),
                   ],
                 )),
-      
+
             const SizedBox(height: 16 / 2),
-      
+
             //Details
             Padding(
                 padding: const EdgeInsets.only(left: 8),
@@ -65,11 +66,14 @@ class ProductCardVertical extends StatelessWidget {
                     ),
                     SizedBox(height: 8 / 2),
                     RoundedContainer(
-                      padding: EdgeInsets.only(right:4, left:4),
+                      padding: EdgeInsets.only(right: 4, left: 4),
                       backgrounColor: Color(0xFF4b68ff),
                       child: Text(
                         entry['serviceCategory'],
-                        style: Theme.of(context).textTheme.labelSmall!.apply(color: Color(0xFFFFFFFF)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .apply(color: Color(0xFFFFFFFF)),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         textAlign: TextAlign.left,

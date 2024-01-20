@@ -47,8 +47,8 @@ class ListingCard extends StatelessWidget {
                         TextButton(
                           child: const Text('View'),
                           onPressed: () {
-                            Get.to(
-                                () => ProductDetail(entry: entry, docID: id, chat: false));
+                            Get.to(() => ProductDetail(
+                                entry: entry, docID: id, chat: false));
                           },
                         ),
                         TextButton(
