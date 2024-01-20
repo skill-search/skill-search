@@ -24,9 +24,10 @@ class SearchContainer extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: showBackground ? Color(0xFFFFFFFF) : Colors.transparent,
-              borderRadius: BorderRadius.circular(16),
-              border: showBorder ? Border.all(color: Color(0xFFE0E0E0)) : null),
+            color: showBackground ? Color(0xFFFFFFFF) : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+            border: showBorder ? Border.all(color: Color(0xFFE0E0E0)) : null
+          ),
           child: Row(
             children: [
               Icon(icon, color: Color(0xFF4F4F4F)),

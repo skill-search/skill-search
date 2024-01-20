@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/product/product_detail.dart';
+import 'package:frontend/common/product/product_detail_edit.dart';
+import 'package:get/get.dart';
 
 class ListingCard extends StatelessWidget {
   final Map<String, dynamic> entry;
-
-  const ListingCard({super.key, required this.entry});
+  final String id;
+  const ListingCard({super.key, required this.entry, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class ListingCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   )),
               leading: Icon(Icons.work),
-              subtitle: Text('Category: ${entry['serviceCategory']}'),
+              subtitle: Text('${entry['serviceCategory']}'),
               children: [
                 ListTile(
                     shape: RoundedRectangleBorder(
@@ -43,11 +46,19 @@ class ListingCard extends StatelessWidget {
                       children: [
                         TextButton(
                           child: const Text('View'),
-                          onPressed: () {/* ... */},
+                          onPressed: () {
+                            Get.to(
+                                () => ProductDetail(entry: entry, docID: id, chat: false));
+                          },
                         ),
                         TextButton(
                           child: const Text('Edit'),
-                          onPressed: () {/* ... */},
+                          onPressed: () {
+                            Get.to(() => ProductDetailEdit(
+                                  entry: entry,
+                                  id: id,
+                                ));
+                          },
                         ),
                       ],
                     ),

@@ -26,15 +26,16 @@ class RoundedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: width,
-        height: height,
-        padding: padding,
-        margin: margin,
-        decoration: BoxDecoration(
-          color: backgrounColor,
-          borderRadius: BorderRadius.circular(radius),
-          border: showBorder ? Border.all(color: borderColor) : null,
-        ),
-        child: child);
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
+      decoration: BoxDecoration(
+        color: backgrounColor,
+        borderRadius: BorderRadius.circular(radius),
+        border: showBorder ? Border.all(color: borderColor) : null,
+      ),
+      child: child
+    );
   }
 }

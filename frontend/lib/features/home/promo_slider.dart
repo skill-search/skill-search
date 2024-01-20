@@ -19,15 +19,16 @@ class PromoSlider extends StatelessWidget {
     return Column(
       children: [
         CarouselSlider(
-          options: CarouselOptions(
+            options: CarouselOptions(
               viewportFraction: 1,
               enlargeCenterPage: true,
               autoPlay: true,
               autoPlayInterval: Duration(seconds: 10),
-              onPageChanged: (index, _) =>
-                  controller.updatePageIndicator(index)),
-          items: banners.map((url) => RoundedImage(imageUrl: url)).toList(),
-        ),
+              onPageChanged: (index, _) => controller.updatePageIndicator(index)
+            ),
+            items: banners.map((url) => RoundedImage(imageUrl: url, isNetworkImage: true,)).toList(),
+            
+            ),
         const SizedBox(height: 8),
         Obx(
           () => Row(
@@ -38,9 +39,7 @@ class PromoSlider extends StatelessWidget {
                   width: 20,
                   height: 4,
                   margin: EdgeInsets.only(right: 10),
-                  backgroundColor: controller.carouselCurrentIndex.value == i
-                      ? Color(0xFF333333)
-                      : Color(0xFFE0E0E0),
+                  backgroundColor: controller.carouselCurrentIndex.value == i ? Color(0xFF333333) : Color(0xFFE0E0E0),
                 ),
             ],
           ),

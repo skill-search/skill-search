@@ -6,11 +6,13 @@ class GridLayout extends StatelessWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.mainAxisExtent = 288,
+    this.crossAxisCount = 2,
   });
 
   final int itemCount;
   final double? mainAxisExtent;
   final Widget? Function(BuildContext, int) itemBuilder;
+  final int crossAxisCount;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,13 @@ class GridLayout extends StatelessWidget {
         itemCount: itemCount,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
             mainAxisSpacing: 16,
             crossAxisSpacing: 16,
-            mainAxisExtent: 288),
-        itemBuilder: itemBuilder);
+            mainAxisExtent: 288
+        ),
+        itemBuilder: itemBuilder
+    );
   }
 }

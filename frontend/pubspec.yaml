@@ -67,6 +67,23 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+      - images/icon-template.png
+      - images/Event Planning.png
+      - images/Administrative Support.png
+      - images/Design & Creative.png
+      - images/Education & Training.png
+      - images/Engineering & Architecture.png
+      - images/Event Planning.png
+      - images/Finance & Accounting.png
+      - images/Handyman Services.png
+      - images/Health & Wellness.png
+      - images/icon-template.png
+      - images/Legal.png
+      - images/Marketing.png
+      - images/Programming & Tech.png
+      - images/Sales & Business.png
+      - images/Writing & Translation.png  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/appbar/appbar.dart';
 
 class HomeAppBar extends StatelessWidget {
-  const HomeAppBar({
+  HomeAppBar({
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
@@ -15,7 +15,7 @@ class HomeAppBar extends StatelessWidget {
                 .textTheme
                 .labelMedium!
                 .apply(color: Color(0xFFE0E0E0))),
-        Text('xxxpussyslayerxxx',
+        Text(FirebaseAuth.instance.currentUser!.email.toString(),
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!

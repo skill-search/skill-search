@@ -14,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   List pages = [
-    const HomePage(),
+    HomePage(),
     const ChatPage(),
     const PostPage(),
     const ListingPage(),

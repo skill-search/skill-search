@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,6 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -27,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmpasswordController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -45,6 +49,13 @@ class _RegisterPageState extends State<RegisterPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
+
+                //after creating new user create document for chat
+        _fireStore.collection('users').doc(_emailController.text).set({
+          'email': _emailController.text,
+          'username': _usernameController.text
+          }
+        );
       } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak-password') {
@@ -66,6 +77,8 @@ class _RegisterPageState extends State<RegisterPage> {
             content: Text(message),
           ),
         );
+
+
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,6 +124,24 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            labelStyle: TextStyle(color: _textFieldTextColor),
+                            fillColor: _textFieldColor,
+                            hintText: 'Enter username',
+                            hintStyle: TextStyle(color: _textFieldTextColor),
+                          ),
+                          style: TextStyle(color: _textFieldTextColor),
+                          obscureText: false,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your username';
+                            }
+                            return null;
+                          },
+                          controller: _usernameController,
+                        ),
                         TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Email',

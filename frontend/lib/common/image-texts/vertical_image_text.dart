@@ -29,13 +29,12 @@ class VerticalImageText extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: backgroundColor,
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                   child: Image(
                       image: AssetImage(image),
-                      fit: BoxFit.cover,
-                      color: Color(0xFF272727))),
+                      fit: BoxFit.cover,)),
             ),
             const SizedBox(height: 16 / 2),
             SizedBox(
