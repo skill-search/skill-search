@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:frontend/firebase_options.dart';
-import 'package:get/get.dart';
-import 'package:frontend/auth/auth.dart';
+// ignore_for_file: unused_field
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:frontend/auth/auth_page.dart';
+import 'package:frontend/firebase_options.dart';
+
+// This is the main entry point of the application, which will direct to AuthPage
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Skill Issue', // App Name
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

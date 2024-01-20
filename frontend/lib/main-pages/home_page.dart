@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:frontend/common/custom-shapes/primary_header_container.dart';
 import 'package:frontend/common/custom-shapes/search_container.dart';
+import 'package:frontend/common/product/grid_layout.dart';
+import 'package:frontend/common/product/product_card_vertical.dart';
 import 'package:frontend/common/texts/section_heading.dart';
 import 'package:frontend/features/home/home_appbar.dart';
 import 'package:frontend/features/home/home_categories.dart';
@@ -16,12 +18,12 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             //head
-            PrimaryHeaderContainer(
+            const PrimaryHeaderContainer(
               child: Column(children: [
-                const HomeAppBar(),
-                const SizedBox(height: 16),
-                const SearchContainer(text: 'Search Service'),
-                const SizedBox(height: 24),
+                HomeAppBar(),
+                SizedBox(height: 16),
+                SearchContainer(text: 'Search Service'),
+                SizedBox(height: 24),
                 PromoSlider(banners: [
                   'https://static01.nyt.com/images/2023/07/20/multimedia/18barbie-review-ftwc/18barbie-review-ftwc-superJumbo.jpg?quality=75&auto=webp',
                   'https://media.gq.com/photos/645956c367d4264086a5d77f/16:9/w_1920,c_limit/Screen%20Shot%202023-05-08%20at%204.07.48%20PM.png',
@@ -33,16 +35,19 @@ class HomePage extends StatelessWidget {
             //body
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: const SectionHeading(
+                const Padding(
+                  padding: EdgeInsets.only(left: 24),
+                  child: SectionHeading(
                     title: 'Popular Categories',
                     showActionButton: false,
                     textColor: Color(0xFF333333),
                   ),
                 ),
                 const SizedBox(height: 16),
-                HomeCategories()
+                HomeCategories(),
+                GridLayout(
+                    itemCount: 5,
+                    itemBuilder: (_, index) => const ProductCardVertical())
               ],
             )
           ],
