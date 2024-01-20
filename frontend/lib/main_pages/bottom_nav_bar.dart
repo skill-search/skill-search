@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/main_pages/home_page.dart';
-
+import 'package:frontend/main_pages/chat_page.dart';
+import 'package:frontend/main_pages/post_page.dart';
+import 'package:frontend/main_pages/listing_page.dart';
+import 'package:frontend/main_pages/profile_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -12,6 +15,10 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   List pages = [
     HomePage(),
+    const ChatPage(),
+    const PostPage(),
+    const ListingPage(),
+    ProfilePage(),
   ];
 
   int currentIndex = 0;
