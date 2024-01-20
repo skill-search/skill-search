@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 Color _backgroundColor = const Color.fromARGB(255, 19, 16, 63);
 Color _buttonColor = const Color.fromARGB(255, 202, 234, 255);
@@ -22,9 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   // These are the variables that will be used to store the user's input for backend authentication
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
-  // This is the future that will be used to control the submit button's behavior
 
   void signIn() async {
     // show loading circle
@@ -50,12 +46,6 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       wrongCredentialMessage();
     }
-
-    //add new user to chat database if doesnt alr exist
-    _fireStore.collection('users').doc(_emailController.text).set({
-        'email': _emailController.text
-        }, SetOptions(merge: true)
-      );
   }
 
   @override
