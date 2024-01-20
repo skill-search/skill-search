@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Color _backgroundColor = const Color.fromARGB(255, 19, 16, 63);
-Color _buttonColor = const Color.fromARGB(255, 202, 234, 255);
-Color _textColor = const Color.fromARGB(255, 176, 102, 223);
+Color _backgroundColor = Color(0xFF4b68ff);
+Color _buttonColor = Color.fromARGB(255, 204, 229, 228);
+Color _textColor = Color.fromARGB(255, 204, 229, 228);
 Color _textFieldColor = const Color.fromARGB(255, 242, 212, 146);
-Color _textFieldTextColor = const Color.fromARGB(255, 130, 145, 219);
+Color _textFieldTextColor = Color.fromARGB(255, 204, 229, 228);
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -53,10 +53,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     //add new user to chat database if doesnt alr exist
-    _fireStore.collection('users').doc(_emailController.text).set({
-        'email': _emailController.text
-        }, SetOptions(merge: true)
-      );
+    _fireStore
+        .collection('users')
+        .doc(_emailController.text)
+        .set({'email': _emailController.text}, SetOptions(merge: true));
   }
 
   @override

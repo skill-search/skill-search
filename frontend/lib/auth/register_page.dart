@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Color _backgroundColor = const Color.fromARGB(255, 19, 16, 63);
-Color _buttonColor = const Color.fromARGB(255, 202, 234, 255);
-Color _textColor = const Color.fromARGB(255, 176, 102, 223);
+Color _backgroundColor = Color(0xFF4b68ff);
+Color _buttonColor = Color.fromARGB(255, 204, 229, 228);
+Color _textColor = Color.fromARGB(255, 204, 229, 228);
 Color _textFieldColor = const Color.fromARGB(255, 242, 212, 146);
-Color _textFieldTextColor = const Color.fromARGB(255, 130, 145, 219);
+Color _textFieldTextColor = Color.fromARGB(255, 204, 229, 228);
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -50,12 +50,11 @@ class _RegisterPageState extends State<RegisterPage> {
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
 
-                //after creating new user create document for chat
+        //after creating new user create document for chat
         _fireStore.collection('users').doc(_emailController.text).set({
           'email': _emailController.text,
           'username': _usernameController.text
-          }
-        );
+        });
       } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak-password') {
@@ -77,8 +76,6 @@ class _RegisterPageState extends State<RegisterPage> {
             content: Text(message),
           ),
         );
-
-
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
