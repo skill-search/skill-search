@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/main_pages/home_page.dart';
-import 'package:frontend/main_pages/chat_page.dart';
-import 'package:frontend/main_pages/post_page.dart';
-import 'package:frontend/main_pages/listing_page.dart';
-import 'package:frontend/main_pages/profile_page.dart';
+import 'package:frontend/main-pages/chat_page.dart';
+import 'package:frontend/main-pages/home_page.dart';
+import 'package:frontend/main-pages/listing_page.dart';
+import 'package:frontend/main-pages/post_page.dart';
+import 'package:frontend/main-pages/profile_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
