@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 Color _backgroundColor = const Color.fromARGB(255, 19, 16, 63);
 Color _buttonColor = const Color.fromARGB(255, 202, 234, 255);
@@ -21,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
   final _usernameController = TextEditingController();
-
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -48,6 +49,11 @@ class _RegisterPageState extends State<RegisterPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
+
+        _fireStore.collection('users').doc(_emailController.text).set({
+          'email': _emailController.text,
+          'username': _usernameController.text
+        });
       } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak-password') {
@@ -69,8 +75,6 @@ class _RegisterPageState extends State<RegisterPage> {
             content: Text(message),
           ),
         );
-
-
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
