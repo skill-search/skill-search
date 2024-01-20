@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    'Skill Issue',
+                    'Skill Search',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
