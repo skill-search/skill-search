@@ -2,23 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-// dropdown category values
-final List<dynamic> _dropdownCategoryValues = [
-  'Handyman Services',
-  'Design & Creative',
-  'Writing & Translation',
-  'Programming & Tech',
-  'Marketing',
-  'Administrative Support',
-  'Finance & Accounting',
-  'Legal',
-  'Sales & Business',
-  'Engineering & Architecture',
-  'Education & Training',
-  'Health & Wellness',
-  'Event Planning',
-];
-
 class PostPage extends StatefulWidget {
   const PostPage({super.key});
 
@@ -27,53 +10,31 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
-  String? _dropdownCategoryValue;
-  final _formKey = GlobalKey<FormState>();
   final _userEmail = FirebaseAuth.instance.currentUser!.email;
   final _serviceName = TextEditingController();
+  final _serviceCategory = TextEditingController();
   final _serviceDescription = TextEditingController();
   final _servicePrice = TextEditingController();
   final _userQualification = TextEditingController();
-
-  final successSnackBar = SnackBar(
-      content: Text(
-        'Service posted!',
-        style: TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Colors.green,
-      duration: Duration(seconds: 3));
-
-  final errorSnackBar = SnackBar(
-      content: Text('Please fill in all the fields!'),
-      backgroundColor: Colors.red,
-      duration: Duration(seconds: 3),
-      showCloseIcon: true,
-      behavior: SnackBarBehavior.floating);
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     _serviceName.dispose();
+    _serviceCategory.dispose();
     _serviceDescription.dispose();
     _servicePrice.dispose();
     _userQualification.dispose();
     super.dispose();
   }
 
-  void dropdownCategoryValueCallback(String? selectedCategory) {
-    setState(() {
-      _dropdownCategoryValue = selectedCategory;
-    });
-  }
-
   Future postService(
-    String userEmail,
-    String serviceName,
-    String serviceCategory,
-    String serviceDescription,
-    int servicePrice,
-    String userQualification,
-  ) async {
+      String userEmail,
+      String serviceName,
+      String serviceCategory,
+      String serviceDescription,
+      int servicePrice,
+      String userQualification) async {
     try {
       await FirebaseFirestore.instance.collection('listing').add({
         'userEmail': userEmail,
@@ -82,10 +43,7 @@ class _PostPageState extends State<PostPage> {
         'serviceDescription': serviceDescription,
         'servicePrice': servicePrice,
         'userQualification': userQualification,
-        'hasClient': false,
-        'completed': false
       });
-      ScaffoldMessenger.of(context).showSnackBar(successSnackBar);
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -94,111 +52,59 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Service Name',
-                      ),
-                      controller: _serviceName,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Service name cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    items: _dropdownCategoryValues
-                        .map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: dropdownCategoryValueCallback,
-                    menuMaxHeight: 350,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Service Category',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Service Category cannot be empty!';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Service Description',
-                      ),
-                      controller: _serviceDescription,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Service Description cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Service Price',
-                    ),
-                    controller: _servicePrice,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Service Price cannot be empty!';
-                      } else if (double.tryParse(value) == null) {
-                        return 'Please enter a valid number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'User Qualification',
-                      ),
-                      controller: _userQualification,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'User Qualification cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        postService(
-                            _userEmail!,
-                            _serviceName.text,
-                            _dropdownCategoryValue!,
-                            _serviceDescription.text,
-                            int.parse(_servicePrice.text),
-                            _userQualification.text);
-
-                        // Clear the form fields
-                        _serviceName.clear();
-                        _serviceDescription.clear();
-                        _servicePrice.clear();
-                        _userQualification.clear();
-                        setState(() {
-                          _dropdownCategoryValue = null;
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(errorSnackBar);
-                      }
-                    },
-                    child: Text('Post Service'),
-                  )
-                ],
+        body: Center(
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Service Name',
               ),
-            )));
+              controller: _serviceName,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Service Category',
+              ),
+              controller: _serviceCategory,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Service Description',
+              ),
+              controller: _serviceDescription,
+            ),
+            TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Service Price',
+              ),
+              controller: _servicePrice,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'User Qualification',
+              ),
+              controller: _userQualification,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                postService(
+                    _userEmail!,
+                    _serviceName.text,
+                    _serviceCategory.text,
+                    _serviceDescription.text,
+                    int.parse(_servicePrice.text),
+                    _userQualification.text);
+              },
+              child: Text('Submit'),
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }

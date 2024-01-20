@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 Color _backgroundColor = const Color.fromARGB(255, 19, 16, 63);
 Color _buttonColor = const Color.fromARGB(255, 202, 234, 255);
@@ -21,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   // These are the variables that will be used to store the user's input for backend authentication
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  // This is the future that will be used to control the submit button's behavior
 
   void signIn() async {
     // show loading circle
