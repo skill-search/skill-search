@@ -73,6 +73,18 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
   }
 
   void deleteListing() async {
+    // delete chat_rooms associated with listing
+    await FirebaseFirestore.instance
+        .collection('chat_rooms')
+        .where('serviceID', isEqualTo: widget.id)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((document) {
+        document.reference.delete();
+      });
+    });
+
+    // delete listing only after deleting chat_rooms
     await FirebaseFirestore.instance
         .collection('listing')
         .doc(widget.id)
