@@ -85,7 +85,7 @@ class ProductCardVertical extends StatelessWidget {
                           '\$${entry['servicePrice']}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          style: Theme.of(context).textTheme.labelLarge,
                         )
                       ],
                     )
