@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/appbar/appbar.dart';
+
 class HomeAppBar extends StatelessWidget {
   HomeAppBar({
     super.key,
@@ -43,7 +44,8 @@ class HomeAppBar extends StatelessWidget {
               } else {
                 // Display the username when available
                 return Text(
-                  username ?? 'Loading...', // Show a placeholder if username is null
+                  username ??
+                      'Loading...', // Show a placeholder if username is null
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!

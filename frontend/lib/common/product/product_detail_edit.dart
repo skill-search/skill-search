@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:frontend/common/appbar/appbar.dart';
 import 'package:frontend/common/custom-shapes/curved_edge_widget.dart';
 import 'package:frontend/common/custom-shapes/rounded_container.dart';
 import 'package:frontend/common/texts/section_heading.dart';
 import 'package:frontend/helper-function/image_helper.dart';
+import 'package:frontend/common/custom-shapes/circular_container.dart';
+import 'package:frontend/main-pages/bottom_nav_bar.dart';
 
 class ProductDetailEdit extends StatefulWidget {
   const ProductDetailEdit({Key? key, required this.entry, required this.id})
@@ -25,7 +28,20 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
   final TextEditingController _servicePriceController = TextEditingController();
   final TextEditingController _userQualificationController =
       TextEditingController();
+  final updateSnackBar = SnackBar(
+      content: Text(
+        'Service updated!',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 3));
 
+  final deleteSnackBar = SnackBar(
+      content: Text('Service deleted!'),
+      backgroundColor: Colors.blueAccent,
+      duration: Duration(seconds: 3),
+      showCloseIcon: true,
+      behavior: SnackBarBehavior.floating);
   @override
   void initState() {
     _serviceNameController.text = widget.entry['serviceName'];
@@ -34,6 +50,33 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
     _servicePriceController.text = widget.entry['servicePrice'].toString();
     _userQualificationController.text = widget.entry['userQualification'];
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _serviceNameController.dispose();
+    _serviceCategoryController.dispose();
+    _serviceDescriptionController.dispose();
+    _servicePriceController.dispose();
+    _userQualificationController.dispose();
+    super.dispose();
+  }
+
+  void updateListing() async {
+    await FirebaseFirestore.instance.collection('listing').doc(widget.id).set({
+      'serviceName': _serviceNameController.text,
+      'serviceCategory': _serviceCategoryController.text,
+      'serviceDescription': _serviceDescriptionController.text,
+      'servicePrice': int.parse(_servicePriceController.text),
+      'userQualification': _userQualificationController.text,
+    }, SetOptions(merge: true));
+  }
+
+  void deleteListing() async {
+    await FirebaseFirestore.instance
+        .collection('listing')
+        .doc(widget.id)
+        .delete();
   }
 
   @override
@@ -76,15 +119,12 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
               Row(
                 children: [
                   RoundedContainer(
-                    backgrounColor: Color(0xFF4b68ff),
+                    backgrounColor: Color(0xFFE0E0E0),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        widget.entry['serviceCategory'],
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .apply(color: Color(0xFFFFFFFF)),
+                        '\$' + widget.entry['servicePrice'].toString(),
+                        style: Theme.of(context).textTheme.titleMedium!,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         textAlign: TextAlign.left,
@@ -93,13 +133,17 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
                   ),
                   const SizedBox(width: 16 / 2),
                   RoundedContainer(
-                    backgrounColor: Color(0xFFE0E0E0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "\$${widget.entry['servicePrice']}",
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
+                    padding: const EdgeInsets.all(8),
+                    backgrounColor: Color(0xFF4b68ff),
+                    child: Text(
+                      widget.entry['serviceCategory'],
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .apply(color: Color(0xFFFFFFFF)),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.left,
                     ),
                   ),
                 ],
@@ -115,9 +159,9 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
               const SizedBox(height: 16 / 2),
               Text(
                 widget.entry['userQualification'],
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.titleSmall!,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+                maxLines: 5,
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 16 / 2),
@@ -135,9 +179,9 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
                       const SizedBox(height: 16),
                       Text(
                         widget.entry['serviceDescription'],
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.titleSmall!,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: 5,
                         textAlign: TextAlign.left,
                       ),
                     ],
@@ -157,7 +201,7 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
                       const SizedBox(height: 16),
                       Text(
                         widget.entry['userQualification'],
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.titleSmall,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         textAlign: TextAlign.left,
@@ -167,57 +211,110 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
               const SizedBox(height: 16 / 2),
               //Edit Service
               RoundedContainer(
-                  padding: const EdgeInsets.all(16),
-                  backgrounColor: Color(0xFFE0E0E0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SectionHeading(
-                        title: "Edit Service",
-                        showActionButton: false,
+                padding: const EdgeInsets.all(16),
+                backgrounColor: Color.fromARGB(255, 212, 165, 165),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SectionHeading(
+                      title: "Edit Service",
+                      showActionButton: false,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _serviceNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Service Name',
                       ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _serviceNameController,
-                        decoration: InputDecoration(
-                          labelText: 'Service Name',
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _serviceCategoryController,
+                      decoration: InputDecoration(
+                        labelText: 'Service Category',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _serviceDescriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Service Description',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: _servicePriceController,
+                      decoration: InputDecoration(
+                        labelText: 'Service Price',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _userQualificationController,
+                      decoration: InputDecoration(
+                        labelText: 'User Qualification',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Row of 3 buttons, delete, cancel, save
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            // Delete
+                            deleteListing();
+                            // snackBar
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(deleteSnackBar);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BottomNavBar()),
+                            );
+                          },
+                          child: const Text('Delete',
+                              style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _serviceCategoryController,
-                        decoration: InputDecoration(
-                          labelText: 'Service Category',
+                        ElevatedButton(
+                          onPressed: () {
+                            // Cancel
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel',
+                              style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF4B68FF),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _serviceDescriptionController,
-                        decoration: InputDecoration(
-                          labelText: 'Service Description',
+                        ElevatedButton(
+                          onPressed: () {
+                            // Save
+                            updateListing();
+                            // snackBar
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(updateSnackBar);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BottomNavBar()),
+                            );
+                          },
+                          child: const Text('Save',
+                              style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF4B68FF),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _servicePriceController,
-                        decoration: InputDecoration(
-                          labelText: 'Service Price',
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _userQualificationController,
-                        decoration: InputDecoration(
-                          labelText: 'User Qualification',
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Save Changes'),
-                      ),
-                    ],
-                  )),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ]),
           ),
         ]),
@@ -225,3 +322,10 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
     );
   }
 }
+
+
+
+//
+
+
+
