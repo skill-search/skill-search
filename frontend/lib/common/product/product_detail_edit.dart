@@ -3,6 +3,7 @@ import 'package:frontend/common/appbar/appbar.dart';
 import 'package:frontend/common/custom-shapes/curved_edge_widget.dart';
 import 'package:frontend/common/custom-shapes/rounded_container.dart';
 import 'package:frontend/common/texts/section_heading.dart';
+import 'package:frontend/helper-function/image_helper.dart';
 
 class ProductDetailEdit extends StatefulWidget {
   const ProductDetailEdit({Key? key, required this.entry, required this.id})
@@ -43,17 +44,16 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
           CurvedEdgeWidget(
             child: Container(
               color: Color(0xFF4b68ff),
-              child: const Stack(
+              child: Stack(
                 children: [
                   SizedBox(
-                      height: 400,
                       child: Padding(
-                        padding: EdgeInsets.all(16 * 2),
-                        child: Center(
-                            child: Image(
-                                image: NetworkImage(
-                                    'https://www.daylightelectrician.com/wp-content/uploads/2016/06/3.jpg'))),
-                      )),
+                    padding: EdgeInsets.all(0),
+                    child: Center(
+                        child: Image(
+                            image: AssetImage(ImageHelper.getImagePath(
+                                widget.entry['serviceCategory'])))),
+                  )),
                   CustomAppBar(
                     showBackArrow: true,
                   )
@@ -81,7 +81,13 @@ class _ProductDetailEditState extends State<ProductDetailEdit> {
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         widget.entry['serviceCategory'],
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .apply(color: Color(0xFFFFFFFF)),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        textAlign: TextAlign.left,
                       ),
                     ),
                   ),
