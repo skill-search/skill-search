@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/custom-shapes/circular_container.dart';
 
 // dropdown category values
 final List<dynamic> _dropdownCategoryValues = [
@@ -94,111 +95,121 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Service Name',
-                      ),
-                      controller: _serviceName,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Service name cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    items: _dropdownCategoryValues
-                        .map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: dropdownCategoryValueCallback,
-                    menuMaxHeight: 350,
+        body: Stack(children: [
+      const Positioned(
+          top: 400,
+          left: -175,
+          child: CircularContainer(
+            width: 750,
+            height: 600,
+            radius: 300,
+            backgroundColor: Color(0xFF4b68ff),
+          )),
+      Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Service Category',
+                      labelText: 'Service Name',
                     ),
+                    controller: _serviceName,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Service Category cannot be empty!';
+                        return 'Service name cannot be empty!';
                       }
                       return null;
-                    },
+                    }),
+                SizedBox(height: 20),
+                DropdownButtonFormField(
+                  items: _dropdownCategoryValues
+                      .map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: dropdownCategoryValueCallback,
+                  menuMaxHeight: 350,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Service Category',
                   ),
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Service Description',
-                      ),
-                      controller: _serviceDescription,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Service Description cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Service Category cannot be empty!';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Service Price',
+                      labelText: 'Service Description',
                     ),
-                    controller: _servicePrice,
+                    controller: _serviceDescription,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Service Price cannot be empty!';
-                      } else if (double.tryParse(value) == null) {
-                        return 'Please enter a valid number';
+                        return 'Service Description cannot be empty!';
                       }
                       return null;
-                    },
+                    }),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Service Price',
                   ),
-                  TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'User Qualification',
-                      ),
-                      controller: _userQualification,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'User Qualification cannot be empty!';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        postService(
-                            _userEmail!,
-                            _serviceName.text,
-                            _dropdownCategoryValue!,
-                            _serviceDescription.text,
-                            int.parse(_servicePrice.text),
-                            _userQualification.text);
+                  controller: _servicePrice,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Service Price cannot be empty!';
+                    } else if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'User Qualification',
+                    ),
+                    controller: _userQualification,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'User Qualification cannot be empty!';
+                      }
+                      return null;
+                    }),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      postService(
+                          _userEmail!,
+                          _serviceName.text,
+                          _dropdownCategoryValue!,
+                          _serviceDescription.text,
+                          int.parse(_servicePrice.text),
+                          _userQualification.text);
 
-                        // Clear the form fields
-                        _serviceName.clear();
-                        _serviceDescription.clear();
-                        _servicePrice.clear();
-                        _userQualification.clear();
-                        setState(() {
-                          _dropdownCategoryValue = null;
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(errorSnackBar);
-                      }
-                    },
-                    child: Text('Post Service'),
-                  )
-                ],
-              ),
-            )));
+                      // Clear the form fields
+                      _serviceName.clear();
+                      _serviceDescription.clear();
+                      _servicePrice.clear();
+                      _userQualification.clear();
+                      setState(() {
+                        _dropdownCategoryValue = null;
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
+                    }
+                  },
+                  child: Text('Post Service'),
+                )
+              ],
+            ),
+          )),
+    ]));
   }
 }
