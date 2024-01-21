@@ -82,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: RoundedContainer(
                   padding: EdgeInsets.all(20),
                   showBorder: true,
-                  backgrounColor: Color.fromARGB(255, 169, 183, 255),
+                  backgrounColor: Colors.white,
                   child: Form(
                       child: Column(
                     children: <Widget>[
