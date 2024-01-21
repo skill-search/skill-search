@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    'Skill Issue',
+                    'SkillSearch',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
