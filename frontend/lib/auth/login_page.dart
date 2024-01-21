@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   // These are the variables that will be used to store the user's input for backend authentication
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   // This is the future that will be used to control the submit button's behavior
 
@@ -51,12 +49,6 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       wrongCredentialMessage();
     }
-
-    //add new user to chat database if doesnt alr exist
-    _fireStore
-        .collection('users')
-        .doc(_emailController.text)
-        .set({'email': _emailController.text}, SetOptions(merge: true));
   }
 
   @override
