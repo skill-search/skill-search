@@ -18,8 +18,7 @@ class ProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Get.to(() => ProductDetail(entry: entry, docID: docID, chat: false)),
+      onTap: () => Get.to(() => ProductDetail(entry: entry, docID: docID)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
